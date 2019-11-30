@@ -12,24 +12,24 @@ namespace HealthForAll.Components
     [Route("api/[controller]")]
     public class MealPlanController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public MealPlanController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public MealPlanController(ApplicationDbContext context)
         {
-            _userManager = userManager;
             _context = context;
         }
 
         [HttpGet]
         public IActionResult RequestMealPlan()
         {
-            return View();
-        }
+            var meals = _context.Meals.ToList();
+            
+            if(meals is null)
+            {
+                return NotFound();
+            }
 
-        private Task<ApplicationUser> GetCurrentUserAsync()
-        {
-            return _userManager.GetUserAsync(HttpContext.User);
+            return Ok();
         }
     }
 }

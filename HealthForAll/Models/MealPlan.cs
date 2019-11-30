@@ -7,8 +7,6 @@ namespace HealthForAll.Models
 {
     public class MealPlan
     {
-        public string UserId { get; set; }
-
-        public DateTime RequestedOn { get; set; }
+        public IEnumerable<Meal> Meals { get; set; }
     }
 }
