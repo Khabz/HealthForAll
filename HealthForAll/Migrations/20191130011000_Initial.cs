@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace HealthForAll.Data.Migrations
+namespace HealthForAll.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,11 +40,38 @@ namespace HealthForAll.Data.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Gender = table.Column<int>(nullable: false),
+                    MembershipType = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Shelters",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Classification = table.Column<string>(nullable: true),
+                    Province = table.Column<string>(nullable: true),
+                    Longitude = table.Column<decimal>(nullable: false),
+                    Latitude = table.Column<decimal>(nullable: false),
+                    AreaType = table.Column<int>(nullable: false),
+                    Ownership = table.Column<string>(nullable: true),
+                    District = table.Column<string>(nullable: true),
+                    SubDistrict = table.Column<string>(nullable: true),
+                    PostalAddress = table.Column<string>(nullable: true),
+                    PostalStreet = table.Column<string>(nullable: true),
+                    PostalArea = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shelters", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,6 +236,9 @@ namespace HealthForAll.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Shelters");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
