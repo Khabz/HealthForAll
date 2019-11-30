@@ -1,0 +1,10 @@
+food_name;carbohydrate;protein;lipids;fibre;energy;category;price
+Egg, chicken, white, raw;1.1;11.3;0.1;0;215;Eggs;0
+Egg, chicken, whole, dried;4.7;48.8;39.9;0;2386;Eggs;0
+Apple, average, raw;15.3;0.2;0.1;2.3;267;Fruits;0
+Banana, raw (peeled);20.5;1.3;0.3;1.7;382;Fruits;0
+Fruit salad, canned in fruit juice;13.3;0.3;tr;1.7;231;Fruits;0
+Cabbage, boiled;5.1;1;tr;1.9;104;Veggies;0
+Carrot, boiled, with brick margarine;8;0.9;4.1;2.9;302;Veggies;0
+Green beans, dehydrated, boiled;8.8;1.9;0.1;3.6;186;Veggies;0
+Chicken (with skin), stew, tomato and onion;3.1;10.6;19.7;0.5;963;Meat Products;0

@@ -15,6 +15,21 @@ namespace HealthForAll.Models
         public Gender Gender { get; set; }
 
         public MembershipType MembershipType { get; set; }
+
+        public bool Pregnent { get; set; }
+
+        public bool Diebetic { get; set; }
+
+        public HIVStatus HIVStatus { get; set; }
+
+        public decimal FoodMonthlyExpenses { get; set; }
+
+        public int Dependency { get; set; }
+    }
+    public enum HIVStatus
+    {
+        Positive,
+        Negative
     }
     public enum Gender
     {
