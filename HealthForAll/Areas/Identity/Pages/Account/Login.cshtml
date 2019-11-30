@@ -1,0 +1,39 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<partial name="_TopNavigationPartial" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="form_wrap">
+                <div class="form03">
+                    <div class="form03_titles">
+                        <img src="~/img/icon_001.svg" alt="" class="form03_icon" />
+                        <h5 class="form03_h5">Sign in account and start your health journey.</h5>
+                    </div>
+                    <div class="form03_form_block w-form">
+                        <form method="post" class="form03_form">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="Input.Email" class="form03_input w-input mt-3" placeholder="Email" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            <input asp-for="Input.Password" class="form03_input w-input mt-3" placeholder="Password" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            <label class="w-checkbox form03_checkbox_wrap">
+                                <input asp-for="Input.RememberMe" class="w-checkbox-input form03_checkbox" />
+                                <span class="form03_checkbox_label w-form-label">
+                                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                </span>
+                            </label>
+                            <button type="submit" class="form03_button w-button">Continue</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

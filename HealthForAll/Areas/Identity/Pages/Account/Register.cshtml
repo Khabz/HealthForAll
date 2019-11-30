@@ -1,0 +1,39 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Create New Account";
+}
+
+<partial name="_TopNavigationPartial" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="form_wrap">
+                <div class="form03">
+                    <div class="form03_titles">
+                        <img src="~/img/icon_001.svg" alt="" class="form03_icon" />
+                        <h5 class="form03_h5">Create new account and start planning your healthy meals.</h5>
+                    </div>
+                    <div class="form03_form_block w-form">
+                        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form03_form">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="Input.FirstName" class="form03_input w-input" placeholder="First Name" />
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                            <input asp-for="Input.LastName" class="form03_input w-input mt-3" placeholder="Last Name" />
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                            <select asp-for="Input.Gender" class="form03_input w-input mt-3" asp-items="@Html.GetEnumSelectList<Gender>()"></select>
+                            <select asp-for="Input.MembershipType" class="form03_input w-input mt-3" asp-items="@Html.GetEnumSelectList<MembershipType>()"></select>
+                            <input asp-for="Input.Email" class="form03_input w-input mt-3" placeholder="Email" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            <input asp-for="Input.Password" class="form03_input w-input mt-3" placeholder="Password" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            <input asp-for="Input.ConfirmPassword" class="form03_input w-input mt-3" placeholder="Confirm Password" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            <button type="submit" class="form03_button w-button">Continue</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

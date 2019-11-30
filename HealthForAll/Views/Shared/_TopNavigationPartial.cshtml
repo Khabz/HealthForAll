@@ -8,12 +8,21 @@
                         <img src="~/img/more-dots.svg" width="16" alt="" class="nav06_icon" />
                     </div>
                     <nav class="dropdown-menu nav06_list w-dropdown-list" aria-labelledby="dropdownMenuButton">
-                        <a href="#" class="nav06_links w-inline-block">
-                            <div class="nav06_text">Sign In</div>
-                        </a>
-                        <a href="#" class="nav06_links w-inline-block">
-                            <div class="nav06_text">Sign Up</div>
-                        </a>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a asp-area="Identity" asp-page="/Account/Login" class="nav06_links w-inline-block">
+                                <div class="nav06_text">Sign In</div>
+                            </a>
+                            <a asp-area="Identity" asp-page="/Account/Register" class="nav06_links w-inline-block">
+                                <div class="nav06_text">Sign Up</div>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="Identity" asp-page="/Account/Logout" class="nav06_links w-inline-block">
+                                <div class="nav06_text">Sign Out</div>
+                            </a>
+                        }
                     </nav>
                 </div>
             </nav>
