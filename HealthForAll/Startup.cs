@@ -12,6 +12,11 @@ using Microsoft.EntityFrameworkCore;
 using HealthForAll.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using HealthForAll.Models;
+using System.Reflection;
+using System.IO;
+using CsvHelper;
+using System.Text;
 
 namespace HealthForAll
 {
@@ -37,7 +42,7 @@ namespace HealthForAll
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<ApplicationUser, IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -57,6 +62,8 @@ namespace HealthForAll
                 app.UseHsts();
             }
 
+            InitializeDatabase(app).GetAwaiter().GetResult();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -70,5 +77,55 @@ namespace HealthForAll
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+        private async Task InitializeDatabase(IApplicationBuilder app)
+        {
+            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var rolesManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+
+                // Add Patient Role
+                var isPatientExists = await rolesManager.RoleExistsAsync("Paitent");
+                if (!isPatientExists)
+                {
+                    var role = new IdentityRole("Patient");
+                    await rolesManager.CreateAsync(role);
+                }
+
+                // Add Dietian Role
+                var isUserExists = await rolesManager.RoleExistsAsync("Dietian");
+                if (!isUserExists)
+                {
+                    var role = new IdentityRole("Dietian");
+                    await rolesManager.CreateAsync(role);
+                }
+
+                // Add Nurse Role
+                var isNurseExists = await rolesManager.RoleExistsAsync("Nurse");
+                if (!isNurseExists)
+                {
+                    var role = new IdentityRole("Nurse");
+                    await rolesManager.CreateAsync(role);
+                }
+            }
+        }
+        //private void Seed(ApplicationDbContext context)
+        //{
+        //    Assembly assembly = Assembly.GetExecutingAssembly();
+        //    string resourceName = "HealthForAll.Data.Files.Shelter.xlsx";
+        //    using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+        //    {
+        //        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+        //        {
+        //            CsvReader csvReader = new CsvReader(reader);
+        //            var shelters = csvReader.GetRecords<Shelter>().ToArray();
+
+        //            foreach (var shelter in shelters)
+        //            {
+        //                context.Shelters.Add(shelter);
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
