@@ -1,12 +1,44 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var user = new ApplicationUser();
     var model = new HomeViewModel();
 }
 
 <partial name="_TopNavigationPartial"/>
 @if (User.Identity.IsAuthenticated)
 {
-    <div id="singleSourceOfTruth">@JsonConvert.SerializeObject(model)</div>
+    <div class="c02">
+        <div class="c02_container">
+            <div class="c02_block">
+                <div class="c02_title">GET STARTED</div>
+                <h4 class="c02_h3">
+                    Request For Your Personalized Healthy Meal Plan
+                </h4>
+                <div class="c02_check_wrap">
+                    <div class="c02_check">
+                        <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c69709893e1_check.svg" width="21" alt="" class="c02_check_icon">
+                        <p class="c02_check_text">Personalized For Income, Making Health Eating Affordable</p>
+                    </div>
+                    <div class="c02_check">
+                        <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c69709893e1_check.svg" width="21" alt="" class="c02_check_icon">
+                        <p class="c02_check_text">Recommendations From Certified Dietitians</p>
+                    </div>
+                    <div class="c02_check">
+                        <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c69709893e1_check.svg" width="21" alt="" class="c02_check_icon">
+                        <p class="c02_check_text">All Meal Ingrediates Found In Stores Near You.</p>
+                    </div>
+                </div>
+                <a href="#" class="c02_button w-inline-block">
+                    <div class="c02_button_text">Get Meal Plan</div>
+                    <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c47809893e4_arrow-right.svg" width="17" alt="" class="c02_button_image">
+                </a>
+            </div>
+            <div class="c02_block_image">
+                <img src="~/img/img_001.png" alt="" class="c02_image">
+            </div>
+        </div>
+    </div>
+    <div id="singleSourceOfTruth" class="d-none">@JsonConvert.SerializeObject(model)</div>
 }
 else
 {
