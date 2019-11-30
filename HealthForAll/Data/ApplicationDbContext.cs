@@ -14,5 +14,6 @@ namespace HealthForAll.Data
         {
         }
         public DbSet<Shelter> Shelters { get; set; }
+        public DbSet<Meal> Meals { get; set; }
     }
 }

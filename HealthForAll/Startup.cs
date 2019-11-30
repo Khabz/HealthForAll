@@ -117,6 +117,56 @@ namespace HealthForAll
             {
                 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
+                if (!context.Meals.Any())
+                {
+                    var path = $"{Path.Combine(Directory.GetCurrentDirectory(), "Data", "Files", "mealplan.csv")}";
+                    using(Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                    {
+                        using(StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            CsvReader csvReader = new CsvReader(reader);
+                            csvReader.Configuration.Delimiter = ";";
+                            csvReader.Configuration.BadDataFound = x => { Console.WriteLine($"{x.RawRecord}"); };
+
+                            while (csvReader.Read())
+                            {
+                                try
+                                {
+                                    var meal = csvReader.GetRecord<MealCsvModel>();
+                                    var foodName = csvReader.GetField<string>("food_name");
+                                    var carbohydrate = csvReader.GetField<string>("carbohydrate");
+                                    var protein = csvReader.GetField<string>("protein");
+                                    var lipids = csvReader.GetField<string>("lipids");
+                                    var fibre = csvReader.GetField<string>("fibre");
+                                    var category = csvReader.GetField<string>("category");
+                                    var energy = csvReader.GetField<string>("energy");
+                                    var price = csvReader.GetField<string>("price");
+
+                                    var mealModel = new Meal
+                                    {
+                                        FoodName = meal.food_name,
+                                        Carbohydrate = meal.carbohydrate,
+                                        Protein = meal.protein,
+                                        Liqids = meal.lipids,
+                                        Fibre = meal.fibre,
+                                        Energy = meal.energy,
+                                        Category = meal.category,
+                                        Price = decimal.Parse(meal.price)
+                                    };
+
+                                    context.Add(mealModel);
+                                }
+                                catch(Exception e)
+                                {
+
+                                }
+                            }
+
+                            await context.SaveChangesAsync();
+                        }
+                    }
+                }
+
                 if (!context.Shelters.Any())
                 {
                     var path = $"{Path.Combine(Directory.GetCurrentDirectory(), "Data", "Files", "Shelter.csv")}";
