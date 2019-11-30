@@ -20,16 +20,14 @@ namespace HealthForAll.Components
         }
 
         [HttpGet]
-        public IActionResult RequestMealPlan()
+        public IActionResult Get()
         {
             var meals = _context.Meals.ToList();
-            
             if(meals is null)
             {
                 return NotFound();
             }
-
-            return Ok();
+            return Ok(meals.Take(5));
         }
     }
 }

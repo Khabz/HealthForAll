@@ -5918,7 +5918,6 @@ blockquote {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    max-width: 150px;
     min-height: 30px;
     min-width: 120px;
     margin-bottom: 25px;
@@ -6447,7 +6446,6 @@ blockquote {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    max-width: 150px;
     min-height: 30px;
     min-width: 120px;
     margin-bottom: 25px;
@@ -6484,7 +6482,6 @@ blockquote {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    max-width: 150px;
     min-height: 30px;
     min-width: 120px;
     margin-bottom: 25px;
@@ -6527,7 +6524,6 @@ blockquote {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    max-width: 150px;
     min-height: 30px;
     min-width: 120px;
     margin-bottom: 25px;
@@ -6570,7 +6566,6 @@ blockquote {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    max-width: 150px;
     min-height: 30px;
     min-width: 120px;
     margin-bottom: 25px;

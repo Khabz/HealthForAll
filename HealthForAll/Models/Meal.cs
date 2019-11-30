@@ -9,8 +9,6 @@ namespace HealthForAll.Models
     {
         public string Id { get; set; }
 
-        public string Name { get; set; }
-
         public string FoodName { get; set; }
 
         public string Carbohydrate { get; set; }

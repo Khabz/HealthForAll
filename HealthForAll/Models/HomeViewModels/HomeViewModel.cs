@@ -11,6 +11,12 @@ namespace HealthForAll.Models.HomeViewModels
         [JsonProperty("current_user")]
         public UserRestModel CurrentUser { get; set; }
 
+        [JsonProperty("new_meal")]
+        public NewMealModel NewMeal { get; set; }
+
+        [JsonProperty("is_loading")]
+        public bool IsLoading { get; set; }
+
         public class UserRestModel {
 
             [JsonProperty("id")]
@@ -27,6 +33,30 @@ namespace HealthForAll.Models.HomeViewModels
 
             [JsonProperty("membership_type")]
             public MembershipType MembershipType { get; set; }
+        }
+
+        public class NewMealModel
+        {
+            [JsonProperty("title")]
+            public string Title { get; set; }
+
+            [JsonProperty("state")]
+            public string State { get; set; }
+
+            [JsonProperty("budget_amount")]
+            public decimal BudgetAmount { get; set; }
+
+            [JsonProperty("number_of_people")]
+            public int NumberOfPeople { get; set; }
+
+            [JsonProperty("meal_date")]
+            public DateTime MealDate { get; set; }
+
+            [JsonProperty("selected_meal")]
+            public object SelectedMeal { get; set; }
+
+            [JsonProperty("suggested_meals")]
+            public List<object> SuggestedMeals { get; set; }
         }
     }
 }

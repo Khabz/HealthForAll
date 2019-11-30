@@ -4,7 +4,16 @@
     var user = new ApplicationUser();
     var model = new HomeViewModel
     {
-        CurrentUser = new HomeViewModel.UserRestModel()
+        CurrentUser = new HomeViewModel.UserRestModel(),
+        NewMeal = new HomeViewModel.NewMealModel
+        {
+            Title = "Let's make a meal plan.",
+            State = "meal-plan",
+            MealDate = DateTime.Now,
+            NumberOfPeople = 1,
+            SuggestedMeals = new List<object>(),
+            SelectedMeal = new object()
+        }
     };
     if (User.Identity.IsAuthenticated)
     {
@@ -60,28 +69,82 @@
                             <div class="m08">
                                 <div class="m08_image w-clearfix" style="height: 90vh">
                                     <div class="m08_social">
-                                        <img src="https://assets.website-files.com/5aed5f7ff167d632686865b0/5aefaa1f9cabc36f3ea583e0_heart.svg" width="16" alt="" class="m08_icon">
-                                        <a href="#" class="m08_social_count">66</a>
+                                        <img v-if="store.state.model.new_meal.state !== 'selected-meal-plan'" src="https://assets.website-files.com/5aed5f7ff167d632686865b0/5aefaa1f9cabc36f3ea583e0_heart.svg" width="16" alt="" class="m08_icon">
+                                        <a href="#" v-if="store.state.model.new_meal.state === 'selected-meal-plan'" class="m08_social_count">View Shops</a>
                                     </div>
                                 </div>
                                 <div class="m08_content">
-                                    <h5 class="form05_h5">Let's make a meal plan.</h5>
-                                    <div class="form05_form_block w-form">
+                                    <h5 class="form05_h5">{{ store.state.model.new_meal.title }}</h5>
+                                    <div class="form05_form_block w-form" v-if="store.state.model.new_meal.state === 'meal-plan' && !store.state.model.is_loading">
                                         <form class="form05_form">
                                             <div class="form05_wrap">
                                                 <label class="form05_title">Hey, what is your budget? R</label>
-                                                <input type="number" placeholder="E.g 440.50 " class="form05_input w-input" />
+                                                <input type="number" v-model="store.state.model.new_meal.budget_amount" placeholder="E.g 440.50 " class="form05_input w-input" />
                                             </div>
                                             <div class="form05_wrap">
                                                 <label class="form05_title">How many people will this meal cover?</label>
-                                                <input type="number" placeholder="E.g 1 " class="form05_input w-input" />
+                                                <input type="number" v-model="store.state.model.new_meal.number_of_people" placeholder="E.g 1 " class="form05_input w-input" />
                                             </div>
                                             <div class="form05_wrap">
                                                 <label class="form05_title">When will you be having this meal?</label>
-                                                <input type="date" placeholder="22/01/2019 22:96" class="form05_input w-input" />
+                                                <input type="date" v-model="store.state.model.new_meal.meal_date" placeholder="22/01/2019 22:96" class="form05_input w-input" />
                                             </div>
-                                            <button type="submit" class="form05_button w-button">Suggest Meals</button>
+                                            <button type="button" v-on:click="getSuggestedMeals()" class="form05_button w-button">Suggest Meals</button>
                                         </form>
+                                    </div>
+                                    <div class="form05_form_block w-form w-100" v-else-if="store.state.model.new_meal.state === 'select-meal-plan' && !store.state.model.is_loading">
+                                        <div class="fe09_item_wrap w-100 clickable" v-for="item in store.state.model.new_meal.suggested_meals" v-bind="item" v-bind:key="item.id"
+                                             v-on:click="setSuggestedMeal(item)">
+                                            <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5d3a41ce71235b40db30f60a_cafe.svg" alt="" class="fe09_icon">
+                                            <div class="w-100">
+                                                <div class="fe09_text">{{ item.foodName }}</div>
+                                                <div class="fe09_text">R {{ item.price }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form05_form_block w-form w-100" v-else-if="store.state.model.new_meal.state === 'selected-meal-plan' && !store.state.model.is_loading">
+                                        <div class="fe09_item_wrap w-100">
+                                            <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5d3a41ce71235b40db30f60a_cafe.svg" alt="" class="fe09_icon">
+                                            <div class="w-100">
+                                                <div class="fe09_text">{{ store.state.model.new_meal.selected_meal.foodName }}</div>
+                                                <div class="fe09_text">R {{ store.state.model.new_meal.selected_meal.price }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="tag_d mt-2 mb-2">
+                                                <div class="tag_circle_d">
+                                                    <div class="tag_text">{{ store.state.model.new_meal.selected_meal.carbohydrate }}</div>
+                                                </div>
+                                                <div class="tag_d_text">Carbohydrates</div>
+                                            </div>
+                                            <div class="tag-s mt-2 mb-2">
+                                                <div class="div_block_09">
+                                                    <div class="tag_text">{{ store.state.model.new_meal.selected_meal.energy }}</div>
+                                                </div>
+                                                <div class="tag_s_text">Energy</div>
+                                            </div>
+                                            <div class="tag_p mt-2 mb-2">
+                                                <div class="tag_circle_p">
+                                                    <div class="tag_text">{{ store.state.model.new_meal.selected_meal.fibre }}</div>
+                                                </div>
+                                                <div class="tag_p_text">Fibre</div>
+                                            </div>
+                                            <div class="tag_w mt-2 mb-2">
+                                                <div class="tag-cirle-w">
+                                                    <div class="tag_text">{{ store.state.model.new_meal.selected_meal.liqids }}</div>
+                                                </div>
+                                                <div class="tag-w-text">Liquids</div>
+                                            </div>
+                                            <div class="tag-e mt-2 mb-2">
+                                                <div class="tag-cirle-e">
+                                                    <div class="tag_text">{{ store.state.model.new_meal.selected_meal.protein }}</div>
+                                                </div>
+                                                <div class="tag-e-text">Proteins</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="store.state.model.is_loading" class="text-center w-100">
+                                        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
                                     </div>
                                 </div>
                             </div>
@@ -102,11 +165,42 @@
                             state: {},
                             setModel(newValue) {
                                 this.state.model = newValue;
+                            },
+                            setIsLoading(newValue) {
+                                this.state.model.is_loading = newValue;
                             }
                         }
                     },
                     methods: {
-
+                        getSuggestedMeals() {
+                            this.store.setIsLoading(true);
+                            this.store.state.model.new_meal.title = "Looking for suggested meals.";
+                            this.$forceUpdate();
+                            let self = this;
+                            $.ajax({
+                                type: 'GET',
+                                crossDomain: true,
+                                contentType: "application/json",
+                                url: '/api/MealPlan',
+                                success: function (data) {
+                                    self.store.state.model.new_meal.title = "Select A Meal Below."
+                                    self.store.setIsLoading(false);
+                                    self.store.state.model.new_meal.suggested_meals = data;
+                                    self.store.state.model.new_meal.state = "select-meal-plan";
+                                    self.$forceUpdate();
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    self.store.setIsLoading(false);
+                                    self.$forceUpdate();
+                                }
+                            });
+                        },
+                        setSuggestedMeal(item) {
+                            this.store.state.model.new_meal.selected_meal = item;
+                            this.store.state.model.new_meal.title = "One more step.";
+                            this.store.state.model.new_meal.state = "selected-meal-plan";
+                            this.$forceUpdate();
+                        }
                     },
                     beforeMount() {
                         let model = JSON.parse($('#singleSourceOfTruth').text());
