@@ -17974,9 +17974,6 @@ blockquote {
     display: flex;
     overflow: hidden;
     width: 100%;
-    max-width: 600px;
-    min-height: 200px;
-    margin-bottom: 35px;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
     -webkit-flex-direction: row;
@@ -17990,8 +17987,6 @@ blockquote {
     -webkit-align-items: flex-start;
     -ms-flex-align: start;
     align-items: flex-start;
-    border-radius: 10px;
-    box-shadow: 14px 14px 40px 0 rgba(118, 126, 173, 0.1);
 }
 
 .m08_image {
@@ -17999,7 +17994,7 @@ blockquote {
     width: 45%;
     height: 100%;
     min-height: 200px;
-    background-image: url("../5d1aded33843827e1de0b4be_sail.jpg");
+    background-image: url("/img/img_002.jpeg");
     background-position: 50% 50%;
     background-size: cover;
 }
@@ -22256,7 +22251,7 @@ blockquote {
     border-bottom-width: 2px;
     border-bottom-color: #ebecf0;
     opacity: 0.5;
-    color: #ebecf0;
+    color: #7540ee;
     font-size: 22px;
     line-height: 40px;
     font-weight: 300;

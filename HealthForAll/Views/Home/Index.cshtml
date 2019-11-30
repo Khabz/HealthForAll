@@ -1,44 +1,122 @@
-﻿@{
+﻿@inject  UserManager<ApplicationUser> UserManager
+@{
     ViewData["Title"] = "Home Page";
     var user = new ApplicationUser();
-    var model = new HomeViewModel();
+    var model = new HomeViewModel
+    {
+        CurrentUser = new HomeViewModel.UserRestModel()
+    };
+    if (User.Identity.IsAuthenticated)
+    {
+        user = await UserManager.GetUserAsync(User);
+        model.CurrentUser.Id = user.Id;
+        model.CurrentUser.FirstName = user.FirstName;
+        model.CurrentUser.LastName = user.LastName;
+        model.CurrentUser.Gender = user.Gender;
+        model.CurrentUser.MembershipType = user.MembershipType;
+    }
 }
 
-<partial name="_TopNavigationPartial"/>
+<partial name="_TopNavigationPartial" />
 @if (User.Identity.IsAuthenticated)
 {
-    <div class="c02">
-        <div class="c02_container">
-            <div class="c02_block">
-                <div class="c02_title">GET STARTED</div>
-                <h4 class="c02_h3">
-                    Request For Your Personalized Healthy Meal Plan
-                </h4>
-                <div class="c02_check_wrap">
-                    <div class="c02_check">
-                        <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c69709893e1_check.svg" width="21" alt="" class="c02_check_icon">
-                        <p class="c02_check_text">Personalized For Income, Making Health Eating Affordable</p>
+    if (user.MembershipType == MembershipType.Patient)
+    {
+        <div id="app" class="c02">
+            <div class="c02_container">
+                <div class="c02_block">
+                    <div class="c02_title">GET STARTED</div>
+                    <h4 class="c02_h3">
+                        Request For Your Personalized Healthy Meal Plan
+                    </h4>
+                    <div class="c02_check_wrap">
+                        <div class="c02_check">
+                            <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c69709893e1_check.svg" width="21" alt="" class="c02_check_icon">
+                            <p class="c02_check_text">Personalized For Income, Making Health Eating Affordable</p>
+                        </div>
+                        <div class="c02_check">
+                            <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c69709893e1_check.svg" width="21" alt="" class="c02_check_icon">
+                            <p class="c02_check_text">Recommendations From Certified Dietitians</p>
+                        </div>
+                        <div class="c02_check">
+                            <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c69709893e1_check.svg" width="21" alt="" class="c02_check_icon">
+                            <p class="c02_check_text">All Meal Ingrediates Found In Stores Near You.</p>
+                        </div>
                     </div>
-                    <div class="c02_check">
-                        <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c69709893e1_check.svg" width="21" alt="" class="c02_check_icon">
-                        <p class="c02_check_text">Recommendations From Certified Dietitians</p>
-                    </div>
-                    <div class="c02_check">
-                        <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c69709893e1_check.svg" width="21" alt="" class="c02_check_icon">
-                        <p class="c02_check_text">All Meal Ingrediates Found In Stores Near You.</p>
+                    <a href="#"  data-toggle="modal" data-target="#newMealPlanModal" class="c02_button w-inline-block">
+                        <div class="c02_button_text">Get Meal Plan</div>
+                        <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c47809893e4_arrow-right.svg" width="17" alt="" class="c02_button_image">
+                    </a>
+                </div>
+                <div class="c02_block_image">
+                    <img src="~/img/img_001.png" alt="" class="c02_image">
+                </div>
+            </div>
+            <!-- Modals -->
+            <div class="modal fade" id="newMealPlanModal" tabindex="-1" role="dialog" aria-labelledby="newMealPlanModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body p-0">
+                            <div class="m08">
+                                <div class="m08_image w-clearfix" style="height: 90vh">
+                                    <div class="m08_social">
+                                        <img src="https://assets.website-files.com/5aed5f7ff167d632686865b0/5aefaa1f9cabc36f3ea583e0_heart.svg" width="16" alt="" class="m08_icon">
+                                        <a href="#" class="m08_social_count">66</a>
+                                    </div>
+                                </div>
+                                <div class="m08_content">
+                                    <h5 class="form05_h5">Let's make a meal plan.</h5>
+                                    <div class="form05_form_block w-form">
+                                        <form class="form05_form">
+                                            <div class="form05_wrap">
+                                                <label class="form05_title">Hey, what is your budget? R</label>
+                                                <input type="number" placeholder="E.g 440.50 " class="form05_input w-input" />
+                                            </div>
+                                            <div class="form05_wrap">
+                                                <label class="form05_title">How many people will this meal cover?</label>
+                                                <input type="number" placeholder="E.g 1 " class="form05_input w-input" />
+                                            </div>
+                                            <div class="form05_wrap">
+                                                <label class="form05_title">When will you be having this meal?</label>
+                                                <input type="date" placeholder="22/01/2019 22:96" class="form05_input w-input" />
+                                            </div>
+                                            <button type="submit" class="form05_button w-button">Suggest Meals</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <a href="#" class="c02_button w-inline-block">
-                    <div class="c02_button_text">Get Meal Plan</div>
-                    <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c47809893e4_arrow-right.svg" width="17" alt="" class="c02_button_image">
-                </a>
-            </div>
-            <div class="c02_block_image">
-                <img src="~/img/img_001.png" alt="" class="c02_image">
             </div>
         </div>
-    </div>
-    <div id="singleSourceOfTruth" class="d-none">@JsonConvert.SerializeObject(model)</div>
+        <div id="singleSourceOfTruth" class="d-none">@JsonConvert.SerializeObject(model)</div>
+
+        @section scripts {
+            <script src="~/lib/vue/vue.js"></script>
+            <script>
+                var app = new Vue({
+                    el: "#app",
+                    data: {
+                        store: {
+                            state: {},
+                            setModel(newValue) {
+                                this.state.model = newValue;
+                            }
+                        }
+                    },
+                    methods: {
+
+                    },
+                    beforeMount() {
+                        let model = JSON.parse($('#singleSourceOfTruth').text());
+                        this.store.setModel(model);
+                    }
+                });
+            </script>
+        }
+    }
+
 }
 else
 {
