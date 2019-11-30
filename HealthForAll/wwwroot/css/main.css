@@ -30515,7 +30515,6 @@ blockquote {
     }
 
     .nav06 {
-        display: none;
     }
 
     .nav06_search {
@@ -30841,20 +30840,9 @@ blockquote {
     }
 
     .nav06_left {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: start;
-        -webkit-justify-content: flex-start;
-        -ms-flex-pack: start;
-        justify-content: flex-start;
-        background-color: #fff;
-        box-shadow: 14px 14px 40px 0 rgba(118, 126, 173, 0.08);
     }
 
     .nav06_drop {
-        display: none;
     }
 
     .nav06_links {
