@@ -1,6 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var model = new HomeViewModel();
 }
 
 <partial name="_TopNavigationPartial"/>
+@if (User.Identity.IsAuthenticated)
+{
+    <div id="singleSourceOfTruth">@JsonConvert.SerializeObject(model)</div>
+}
+else
+{
+
+}
 
