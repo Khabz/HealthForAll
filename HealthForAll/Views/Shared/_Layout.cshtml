@@ -4,9 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Health For All</title>
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/skin.css" />
+    <script src="~/lib/webfont/js/webfont.js"></script>
+    <script type="text/javascript">WebFont.load({ google: { families: ["Varela Round:400", "Cabin:regular,500,500italic,600,600italic,700"] } });</script>
 </head>
-<body>
+<body class="body-2">
     @RenderBody()
+    <script src="~/lib/jquery/js/jquery.js"></script>
+    <script src="~/lib/popper/js/popper.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="~/js/main.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
