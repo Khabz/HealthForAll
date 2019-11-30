@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsvHelper.Configuration.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +23,7 @@ namespace HealthForAll.Models
         public decimal Latitude { get; set; }
 
         [Display(Name = "Area Type")]
-        public AreaType AreaType { get; set; }
+        public string AreaType { get; set; }
 
         public string Ownership { get; set; }
 
@@ -39,10 +40,5 @@ namespace HealthForAll.Models
 
         [Display(Name = "Postal Area")]
         public string PostalArea { get; set; }
-    }
-    public enum AreaType
-    {
-        Rural,
-        Urban
     }
 }
