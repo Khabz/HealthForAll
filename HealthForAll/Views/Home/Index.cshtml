@@ -145,6 +145,7 @@
                                                 <div class="tag-e-text">Proteins</div>
                                             </div>
                                         </div>
+                                        <button type="button" v-on:click="submitMeal()" class="form05_button w-button">Submit Meal</button>
                                     </div>
                                     <div v-else-if="store.state.model.is_loading" class="text-center w-100">
                                         <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
@@ -229,6 +230,38 @@
                               ppi: pixelRatio > 1 ? 320 : 72
                             });
                             console.log(layers);
+                        },
+                        submitMeal() {
+                            this.store.setIsLoading(true);
+                            this.store.state.model.new_meal.title = "Submiting your meal plan.";
+                            this.$forceUpdate();
+                            let self = this;
+                            let model = {
+                                user_id: this.store.state.model.current_user.id,
+                                budget_amount: this.store.state.model.new_meal.budget_amount,
+                                meal_id: this.store.state.model.new_meal.selected_meal.id,
+                                meal_date: this.store.state.model.new_meal.meal_date,
+                                dependents: this.store.state.model.new_meal.number_of_people
+                            }
+                            $.ajax({
+                                type: 'POST',
+                                crossDomain: true,
+                                data: JSON.stringify(model),
+                                contentType: "application/json",
+                                url: '/api/UserMealPlan',
+                                success: function (data) {
+                                    self.store.state.model.new_meal.title = "Let's make a meal plan.";
+                                    self.store.state.model.new_meal.state = "meal-plan";
+                                    self.store.setIsLoading(false);
+                                    $('#newMealPlanModal').modal("toggle");
+                                    self.$forceUpdate();
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    self.store.setIsLoading(false);
+                                    self.store.state.model.new_meal.title = "Something Went Wrong."
+                                    self.$forceUpdate();
+                                }
+                            });
                         }
                     },
                     mounted() {

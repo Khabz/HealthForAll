@@ -24,6 +24,8 @@ namespace HealthForAll.Models
 
         public decimal FoodMonthlyExpenses { get; set; }
 
+        public List<UserMeal> UserMeals { get; set; }
+
         public int Dependency { get; set; }
     }
     public enum HIVStatus
