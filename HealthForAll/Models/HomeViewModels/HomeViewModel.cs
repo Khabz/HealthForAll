@@ -17,6 +17,9 @@ namespace HealthForAll.Models.HomeViewModels
         [JsonProperty("is_loading")]
         public bool IsLoading { get; set; }
 
+        [JsonProperty("is_map_showing")]
+        public bool IsMapShowing { get; set; }
+
         public class UserRestModel {
 
             [JsonProperty("id")]
