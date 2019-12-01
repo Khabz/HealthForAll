@@ -1,4 +1,4 @@
-﻿@inject  UserManager<ApplicationUser> UserManager
+﻿@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Home Page";
     var user = new ApplicationUser();
@@ -31,6 +31,9 @@
 {
     if (user.MembershipType == MembershipType.Patient)
     {
+        @section styles {
+            <link href="~/lib/here/css/mapsjs-ui.css" type="text/css" rel="stylesheet" />
+        }
         <div id="app" class="c02">
             <div class="c02_container">
                 <div class="c02_block">
@@ -52,7 +55,7 @@
                             <p class="c02_check_text">All Meal Ingrediates Found In Stores Near You.</p>
                         </div>
                     </div>
-                    <a href="#"  data-toggle="modal" data-target="#newMealPlanModal" class="c02_button w-inline-block">
+                    <a href="#" data-toggle="modal" data-target="#newMealPlanModal" class="c02_button w-inline-block">
                         <div class="c02_button_text">Get Meal Plan</div>
                         <img src="https://assets.website-files.com/5cbc1cadfad96c3229989372/5cbc1cadfad96c47809893e4_arrow-right.svg" width="17" alt="" class="c02_button_image">
                     </a>
@@ -68,9 +71,9 @@
                         <div class="modal-body p-0">
                             <div class="m08">
                                 <div class="m08_image w-clearfix" style="height: 90vh">
-                                    <div class="m08_social">
-                                        <img v-if="store.state.model.new_meal.state !== 'selected-meal-plan'" src="https://assets.website-files.com/5aed5f7ff167d632686865b0/5aefaa1f9cabc36f3ea583e0_heart.svg" width="16" alt="" class="m08_icon">
-                                        <a href="#" v-if="store.state.model.new_meal.state === 'selected-meal-plan'" class="m08_social_count">View Shops</a>
+                                    <div class="m08_social" v-if="store.state.model.new_meal.state === 'selected-meal-plan'" v-on:click="showMap">
+                                        <img src="https://assets.website-files.com/5aed5f7ff167d632686865b0/5aefaa1f9cabc36f3ea583e0_heart.svg" width="16" alt="" class="m08_icon">
+                                        <a href="#" class="m08_social_count">View Shops</a>
                                     </div>
                                 </div>
                                 <div class="m08_content">
@@ -156,6 +159,13 @@
         <div id="singleSourceOfTruth" class="d-none">@JsonConvert.SerializeObject(model)</div>
 
         @section scripts {
+            <script type="text/javascript" src="~/lib/here/js/mapsjs-core.js"></script>
+            <script type="text/javascript" src="~/lib/here/js/mapsjs-service.js"></script>
+            <script type="text/javascript" src="~/lib/here/js/mapsjs-ui.js"></script>
+            <script type="text/javascript" src="~/lib/here/js/mapsjs-mapevents.js"></script>
+            <script type="text/javascript" src="~/lib/here/js/mapsjs-clustering.js"></script>
+            <script type="text/javascript" src="~/lib/here/js/mapsjs-datalens.js"></script>
+            <script type="text/javascript" src="~/lib/d3js/js/d3.js"></script>
             <script src="~/lib/vue/vue.js"></script>
             <script>
                 var app = new Vue({
@@ -200,7 +210,28 @@
                             this.store.state.model.new_meal.title = "One more step.";
                             this.store.state.model.new_meal.state = "selected-meal-plan";
                             this.$forceUpdate();
+                        },
+                        showMap() {
+                            let app_id = "JhE0slEAzCuJc13lUwYa";
+                            let app_code = "fba0yCgDHLv1L_q1neW4b-gO0I7UzUfVAT9f2QgxHvg";
+                            let platform = new H.service.Platform({
+                                app_id,
+                                app_code,
+                                useCIT: true,
+                                useHTTPS: true
+                            });
+                            const pixelRatio = devicePixelRatio > 1 ? 2 : 1;
+                            let defaultLayers = platform.createDefaultLayers({
+                                tileSize: 256 * pixelRatio
+                            });
+                            const layers = platform.createDefaultLayers({
+                              tileSize: 256 * pixelRatio,
+                              ppi: pixelRatio > 1 ? 320 : 72
+                            });
+                            console.log(layers);
                         }
+                    },
+                    mounted() {
                     },
                     beforeMount() {
                         let model = JSON.parse($('#singleSourceOfTruth').text());

@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="~/css/skin.css" />
     <script src="~/lib/webfont/js/webfont.js"></script>
     <script type="text/javascript">WebFont.load({ google: { families: ["Varela Round:400", "Cabin:regular,500,500italic,600,600italic,700"] } });</script>
+    @RenderSection("styles", required: false)
 </head>
 <body class="body-2">
     @RenderBody()

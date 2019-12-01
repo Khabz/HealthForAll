@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HealthForAll.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace HealthForAll.Controllers
 {
